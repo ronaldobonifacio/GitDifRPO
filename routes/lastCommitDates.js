@@ -6,9 +6,10 @@ const router = express.Router();
 
 router.get('/:branch/:extension/:filePath?', async (req, res) => {
   const { branch, extension, filePath } = req.params;
-  
+  const normalizedExtension = extension.toLowerCase(); // Normaliza a extensão
+
   try {
-    const filesAndCommits = await getFilesAndCommits(branch, extension, filePath);
+    const filesAndCommits = await getFilesAndCommits(branch, normalizedExtension, filePath);
     
     for (const commitData of filesAndCommits) {
       await insertCommitData(commitData, branch);

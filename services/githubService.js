@@ -20,7 +20,8 @@ const getFilesAndCommits = async (branch, extension, filePath) => {
     if (filePath) {
       files = files.filter(item => item.path === filePath);
     } else if (extension) {
-      files = files.filter(item => item.path.endsWith(`.${extension}`));
+      const normalizedExtension = extension.toLowerCase(); // Normaliza a extensão
+      files = files.filter(item => item.path.toLowerCase().endsWith(`.${normalizedExtension}`));
     }
 
     if (files.length === 0) {
