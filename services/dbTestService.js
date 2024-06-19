@@ -1,7 +1,14 @@
 const sql = require('mssql');
+const { checkRateLimit } = require('./githubRateLimit');
 
 const testDbConnection = async () => {
   try {
+    const token = process.env.GITHUB_TOKEN; // Supondo que você tenha o token armazenado em uma variável de ambiente
+    const { remainingRequests, timeUntilReset } = await checkRateLimit(token);
+
+    console.log(`Remaining requests to GitHub API: ${remainingRequests}`);
+    console.log(`Time until reset: ${timeUntilReset} minutes`);
+
     const transaction = new sql.Transaction();
     await transaction.begin();
 
@@ -18,8 +25,8 @@ const testDbConnection = async () => {
 
     await transaction.commit();
     console.log('User has UPDATE, DELETE, and INSERT permissions.');
-  } catch (permError) {
-    console.error('User does not have the necessary permissions:', permError.message);
+  } catch (error) {
+    console.error('Error testing database connection:', error.message);
   }
 };
 
