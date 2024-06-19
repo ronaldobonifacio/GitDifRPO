@@ -1,16 +1,17 @@
 {
   "name": "difgitrpo",
   "version": "0.0.1",
-  "description": "Programa para buscar fontes na branch do reposótorio git e salvar seus ultimos commits",
+  "description": "Programa para buscar fontes na branch do repositório git e salvar seus últimos commits",
   "main": "app.js",
   "scripts": {
+    "start": "nodemon app.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [
     "git",
     "dif",
     "rpo"
-  ],
+  ], 
   "author": "Ronaldo Correia",
   "license": "ISC",
   "dependencies": {
@@ -18,5 +19,8 @@
     "dotenv": "^16.4.5",
     "express": "^4.19.2",
     "mssql": "^10.0.4"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.3"
   }
 }

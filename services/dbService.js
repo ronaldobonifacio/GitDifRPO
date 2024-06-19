@@ -1,46 +1,30 @@
 const sql = require('mssql');
 const { dbConfig } = require('../config');
 
-const updateDatabase = async (results) => {
-  const pool = await sql.connect(dbConfig);
-  console.log('Connected to SQL Server successfully.');
+const insertCommitData = async (commitData, branch) => {
+  try {
+    const pool = await sql.connect(dbConfig);
+    console.log('Connected to SQL Server successfully.');
 
-  const currentDate = new Date();
-  const formattedCurrentDate = currentDate.toISOString().split('T')[0];
-  const formattedCurrentTime = currentDate.toTimeString().split(' ')[0];
+    const { fonte, data, hora } = commitData;
 
-  for (const result of results) {
-    const { fonte, data, hora } = result;
-
-    const querySelect = `
-      SELECT TOP 1 * FROM RPO_GIT_DATA
-      WHERE fonte_rpo = @fonte
-      ORDER BY data_atualizacao_rpo DESC, hora_fonte_rpo DESC;
+    const queryInsert = `
+      INSERT INTO FONTES_GIT (ambiente_git, fonte_git, data_fonte_git, hora_fonte_git, data_atualizacao_git)
+      VALUES (@branch, @fonte, @data, @hora, GETDATE());
     `;
 
-    const selectResult = await pool.request()
+    await pool.request()
+      .input('branch', sql.VarChar(50), branch)
       .input('fonte', sql.VarChar(50), fonte)
-      .query(querySelect);
+      .input('data', sql.VarChar, data)
+      .input('hora', sql.VarChar, hora)
+      .query(queryInsert);
 
-    if (selectResult.recordset.length > 0) {
-      const queryUpdate = `
-        UPDATE RPO_GIT_DATA
-        SET fonte_git = @fonteGit,
-            data_fonte_git = @dataGit,
-            hora_fonte_git = @horaGit,
-            data_atualizacao_git = @dataAtualizacaoGit
-        WHERE id = @id;
-      `;
-
-      await pool.request()
-        .input('fonteGit', sql.VarChar(50), fonte)
-        .input('dataGit', sql.VarChar, data)
-        .input('horaGit', sql.VarChar, hora)
-        .input('dataAtualizacaoGit', sql.VarChar, `${formattedCurrentDate} ${formattedCurrentTime}`)
-        .input('id', sql.Int, selectResult.recordset[0].id)
-        .query(queryUpdate);
-    }
+    console.log('Data successfully inserted into FONTES_GIT.');
+  } catch (error) {
+    console.error('Error inserting data into SQL Server:', error.message);
+    throw error;
   }
 };
 
-module.exports = { updateDatabase };
+module.exports = { insertCommitData };
