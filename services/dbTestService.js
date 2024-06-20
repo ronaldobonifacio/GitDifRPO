@@ -1,14 +1,7 @@
 const sql = require('mssql');
-const { checkRateLimit } = require('./githubRateLimit');
 
 const testDbConnection = async () => {
   try {
-    const token = process.env.GITHUB_TOKEN; // Supondo que você tenha o token armazenado em uma variável de ambiente
-    const { remainingRequests, timeUntilReset } = await checkRateLimit(token);
-
-    console.log(`Número de consultas disponíveis na API do GIT: ${remainingRequests}`);
-    console.log(`Limite de requisições resetará em: ${timeUntilReset} minutos`);
-
     const transaction = new sql.Transaction();
     await transaction.begin();
 
