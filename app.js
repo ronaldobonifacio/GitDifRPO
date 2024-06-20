@@ -6,7 +6,7 @@ const { testDbConnection } = require('./services/dbTestService');
 const lastCommitDatesRoute = require('./routes/lastCommitDates');
 
 const app = express();
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 9000;
 
 // Teste de conexão com o banco de dados ao iniciar o servidor
 sql.connect(dbConfig)
@@ -18,7 +18,7 @@ sql.connect(dbConfig)
     });
   })
   .catch(err => {
-    console.error('Failed to connect to SQL Server:', err.message);
+    console.error('Erro ao conectar com banco de dados:', err.message);
   });
 
 app.use('/last-commit-dates', lastCommitDatesRoute);

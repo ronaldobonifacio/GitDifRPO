@@ -25,7 +25,7 @@ const getFilesAndCommits = async (branch, extension, filePath) => {
     }
 
     if (files.length === 0) {
-      throw new Error('No files found with the specified extension or file path');
+      throw new Error('Nenhum arquivo encontrado com o tipo de extensão ou local indicado!');
     }
 
     const filesAndCommits = [];
@@ -53,7 +53,7 @@ const getFilesAndCommits = async (branch, extension, filePath) => {
 
     return filesAndCommits;
   } catch (error) {
-    console.error('Error fetching data from GitHub API:', error.message);
+    console.error('Erro ao consumir dados da api do GITHUB:', error.message);
     throw error;
   }
 };

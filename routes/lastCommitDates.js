@@ -15,10 +15,10 @@ router.get('/:branch/:extension/:filePath?', async (req, res) => {
       await insertCommitData(commitData, branch);
     }
 
-    res.json({ message: 'Data successfully inserted into the database', data: filesAndCommits });
+    res.json({ message: 'Dados inseridos com sucesso no bando de dados', data: filesAndCommits });
   } catch (error) {
-    console.error('Error processing request:', error.message);
-    res.status(500).json({ error: 'Failed to process request' });
+    console.error('Erro ao processar requisição:', error.message);
+    res.status(500).json({ error: 'Erro ao processar requisição' });
   }
 });
 

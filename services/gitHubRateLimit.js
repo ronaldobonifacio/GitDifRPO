@@ -18,7 +18,7 @@ const checkRateLimit = async (token) => {
 
     return { remainingRequests, timeUntilReset };
   } catch (error) {
-    console.error('Error fetching rate limit from GitHub API:', error.message);
+    console.error('Limite de consultar a api do GITHUB excedido:', error.message);
     throw error;
   }
 };

@@ -1,5 +1,6 @@
 const sql = require('mssql');
 const { dbConfig } = require('../config');
+const table = process.env.DB_TABLE
 
 const insertCommitData = async (commitData, branch) => {
   try {
@@ -9,7 +10,7 @@ const insertCommitData = async (commitData, branch) => {
     const { fonte, data, hora } = commitData;
 
     const queryInsert = `
-      INSERT INTO FONTES_GIT (ambiente_git, fonte_git, data_fonte_git, hora_fonte_git, data_atualizacao_git)
+      INSERT INTO ${table} (ambiente_git, fonte_git, data_fonte_git, hora_fonte_git, data_atualizacao_git)
       VALUES (@branch, @fonte, @data, @hora, GETDATE());
     `;
 
@@ -20,9 +21,9 @@ const insertCommitData = async (commitData, branch) => {
       .input('hora', sql.VarChar, hora)
       .query(queryInsert);
 
-    console.log('Data successfully inserted into FONTES_GIT.');
+    console.log('Dados inseridos com sucesso na tabela:',process.env.DB_TABLE);
   } catch (error) {
-    console.error('Error inserting data into SQL Server:', error.message);
+    console.error('Erro ao inserir dados na tabela:', error.message);
     throw error;
   }
 };
