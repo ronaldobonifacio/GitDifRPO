@@ -4,7 +4,7 @@ const { dbConfig } = require('../config');
 const insertCommitData = async (commitData, branch) => {
   try {
     const pool = await sql.connect(dbConfig);
-    console.log('Connected to SQL Server successfully.');
+    console.log('Conexão com banco de dados realizada com sucesso!');
 
     const { fonte, data, hora } = commitData;
 
