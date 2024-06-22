@@ -4,7 +4,7 @@
   "description": "Programa para buscar fontes na branch do repositório git e salvar seus últimos commits",
   "main": "app.js",
   "scripts": {
-    "start": "nodemon app.js",
+    "start": "nodemon src\\app.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [
